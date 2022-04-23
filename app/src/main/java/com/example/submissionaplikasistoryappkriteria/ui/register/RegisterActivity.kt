@@ -1,29 +1,27 @@
 package com.example.submissionaplikasistoryappkriteria.ui.register
 
-import android.Manifest
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
+
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
 import android.view.View
+
 import android.widget.Toast
 import androidx.activity.viewModels
 import com.example.submissionaplikasistoryappkriteria.R
 import com.example.submissionaplikasistoryappkriteria.databinding.ActivityRegisterBinding
-import com.example.submissionaplikasistoryappkriteria.ui.addstory.AddStoryUserActivity
+
 import com.example.submissionaplikasistoryappkriteria.ui.login.LoginActivity
-import com.example.submissionaplikasistoryappkriteria.ui.storyuser.StoryActivity
-import kotlin.properties.Delegates
+
 
 
 class RegisterActivity : AppCompatActivity() {
 
     private var emailValid = false
-    private var passwordValid = false
+
 
 
     private val registerViewModel by viewModels<RegisterViewModel>()
@@ -44,6 +42,10 @@ class RegisterActivity : AppCompatActivity() {
 
             allowRegister(it)
 
+        }
+
+        registerViewModel.isLoading.observe(this){
+            showLoading(it)
         }
 
 
@@ -87,21 +89,6 @@ class RegisterActivity : AppCompatActivity() {
 
         })
 
-        registerBinding.edtPassword.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
-                validatePassword()
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-        })
-
         registerBinding.edtEmail.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
 
@@ -116,6 +103,14 @@ class RegisterActivity : AppCompatActivity() {
             }
 
         })
+    }
+
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            registerBinding.progressBar.visibility = View.VISIBLE
+        } else {
+            registerBinding.progressBar.visibility = View.GONE
+        }
     }
 
 
@@ -149,28 +144,12 @@ class RegisterActivity : AppCompatActivity() {
 
     }
 
-    fun validatePassword() {
 
-        val input = registerBinding.edtPassword.text.toString()
-        if (input.length < 6) {
-            passwordValid = false
-            showPasswordMinimalAlert(true)
-            registerBinding.btnLogin.isEnabled = false
-        } else {
-            passwordValid = true
-            showPasswordMinimalAlert(false)
-            registerBinding.btnLogin.isEnabled = true
-        }
-
-    }
 
     private fun showEmailExistAlert(isNotValid: Boolean) {
         registerBinding.edtEmail.error =
             if (isNotValid) getString(R.string.email_not_valid) else null
     }
 
-    private fun showPasswordMinimalAlert(isNotValid: Boolean) {
-        registerBinding.edtPassword.error =
-            if (isNotValid) getString(R.string.password_not_valid) else null
-    }
+
 }

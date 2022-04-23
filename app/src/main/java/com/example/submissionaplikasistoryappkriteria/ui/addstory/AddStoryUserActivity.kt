@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -80,6 +81,10 @@ class AddStoryUserActivity : AppCompatActivity() {
             changePage(it)
         }
 
+        addStoryUserViewModel.isLoading.observe(this){
+            showLoading(it)
+        }
+
 
 
         addStoryUserBinding.cameraXButton.setOnClickListener { startCameraX() }
@@ -94,18 +99,25 @@ class AddStoryUserActivity : AppCompatActivity() {
     }
     companion object {
         const val CAMERA_X_RESULT = 200
-        private const val delay = 1000L
+
 
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
     }
 
+    private fun showLoading(isLoading: Boolean) {
+        if (isLoading) {
+            addStoryUserBinding.progressBar.visibility = View.VISIBLE
+        } else {
+            addStoryUserBinding.progressBar.visibility = View.GONE
+        }
+    }
+
     private fun changePage(value: Boolean){
         if(value){
-            Handler(Looper.getMainLooper()).postDelayed({
                 val intent = Intent(this@AddStoryUserActivity, StoryActivity::class.java)
                 startActivity(intent)
-            }, delay)
+
         }
     }
 

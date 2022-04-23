@@ -11,11 +11,11 @@ class ViewModelFactory(private val context: Context) : ViewModelProvider.NewInst
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
-            return LoginViewModel(context) as T
-        }
         if (modelClass.isAssignableFrom(StoryViewModel::class.java)) {
             return StoryViewModel(context) as T
+        }
+        if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
+            return LoginViewModel(context) as T
         }
 
         if (modelClass.isAssignableFrom(AddStoryUserViewModel::class.java)) {

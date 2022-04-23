@@ -1,9 +1,10 @@
 package com.example.submissionaplikasistoryappkriteria.customView.editText
 
-import android.annotation.SuppressLint
+
 import android.content.Context
 import android.graphics.Canvas
 import android.graphics.drawable.Drawable
+import android.provider.Settings.System.getString
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
@@ -15,6 +16,8 @@ import com.example.submissionaplikasistoryappkriteria.R
 
 class MyEditText : AppCompatEditText, View.OnTouchListener {
     private lateinit var clearButtonImage: Drawable
+
+
 
     constructor(context: Context) : super(context) {
         init()
@@ -49,7 +52,12 @@ class MyEditText : AppCompatEditText, View.OnTouchListener {
             }
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-
+                if(s.length < 6){
+                    showEmailExistAlert()
+                    hideClearButton()
+                }else{
+                    showClearButton()
+                }
             }
 
             override fun afterTextChanged(s: Editable) {
@@ -64,6 +72,10 @@ class MyEditText : AppCompatEditText, View.OnTouchListener {
             val clearButtonStart: Float
             val clearButtonEnd: Float
             var isClearButtonClicked = false
+
+
+
+
 
             if (layoutDirection == View.LAYOUT_DIRECTION_RTL) {
                 clearButtonEnd = (clearButtonImage.intrinsicWidth + paddingStart).toFloat()
@@ -111,6 +123,34 @@ class MyEditText : AppCompatEditText, View.OnTouchListener {
         }
         return false
 
+    }
+
+    private fun showClearButton() {
+        setButtonDrawables(endOfTheText = clearButtonImage)
+    }
+
+    private fun hideClearButton() {
+        setButtonDrawables()
+    }
+
+    private fun setButtonDrawables(
+        startOfTheText: Drawable? = null,
+
+        topOfTheText: Drawable? = null,
+        endOfTheText: Drawable? = null,
+        bottomOfTheText: Drawable? = null
+    ) {
+        setCompoundDrawablesWithIntrinsicBounds(
+            startOfTheText,
+            topOfTheText,
+            endOfTheText,
+            bottomOfTheText
+        )
+
+    }
+
+    private fun showEmailExistAlert() {
+       error =  "Password less than 6 characters!"
     }
 
 
