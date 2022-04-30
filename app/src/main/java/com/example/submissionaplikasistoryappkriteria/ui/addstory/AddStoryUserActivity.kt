@@ -20,6 +20,7 @@ import com.example.submissionaplikasistoryappkriteria.rotateBitmap
 import com.example.submissionaplikasistoryappkriteria.ui.storyuser.StoryActivity
 import com.example.submissionaplikasistoryappkriteria.uriToFile
 import com.example.submissionaplikasistoryappkriteria.viewModel.ViewModelFactory
+
 import java.io.File
 
 
@@ -27,7 +28,7 @@ class AddStoryUserActivity : AppCompatActivity() {
 
     private lateinit var addStoryUserBinding: ActivityAddStoryuserBinding
     private var getFile: File? = null
-    private lateinit var addStoryUserViewModel : AddStoryUserViewModel
+    private lateinit var addStoryUserViewModel: AddStoryUserViewModel
 
 
     override fun onRequestPermissionsResult(
@@ -66,9 +67,8 @@ class AddStoryUserActivity : AppCompatActivity() {
         addStoryUserBinding = ActivityAddStoryuserBinding.inflate(layoutInflater)
         setContentView(addStoryUserBinding.root)
 
-        addStoryUserViewModel = ViewModelProvider(this, ViewModelFactory(this)).get(
-            AddStoryUserViewModel::class.java
-        )
+        addStoryUserViewModel =
+            ViewModelProvider(this, ViewModelFactory(this))[AddStoryUserViewModel::class.java]
 
 
         addStoryUserViewModel.toast.observe(this) {
@@ -77,11 +77,11 @@ class AddStoryUserActivity : AppCompatActivity() {
             }
         }
 
-        addStoryUserViewModel.change.observe(this){
+        addStoryUserViewModel.change.observe(this) {
             changePage(it)
         }
 
-        addStoryUserViewModel.isLoading.observe(this){
+        addStoryUserViewModel.isLoading.observe(this) {
             showLoading(it)
         }
 
@@ -93,10 +93,9 @@ class AddStoryUserActivity : AppCompatActivity() {
             addStoryUserViewModel.getDescriptionResult(addStoryUserBinding.description.text.toString())
             addStoryUserViewModel.uploadImage()
 
-
-
         }
     }
+
     companion object {
         const val CAMERA_X_RESULT = 200
 
@@ -113,23 +112,41 @@ class AddStoryUserActivity : AppCompatActivity() {
         }
     }
 
-    private fun changePage(value: Boolean){
-        if(value){
-                val intent = Intent(this@AddStoryUserActivity, StoryActivity::class.java)
-                startActivity(intent)
+    private fun changePage(value: Boolean) {
+        if (value) {
+            val intent = Intent(this@AddStoryUserActivity, StoryActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
 
         }
     }
 
     private fun showToast(value: String) {
         when (value) {
-            "berhasil" ->  Toast.makeText(this@AddStoryUserActivity, "Uploaded successfully", Toast.LENGTH_SHORT).show()
+            "berhasil" -> Toast.makeText(
+                this@AddStoryUserActivity,
+                "Uploaded successfully",
+                Toast.LENGTH_SHORT
+            ).show()
 
-            "file_besar" ->  Toast.makeText(this@AddStoryUserActivity, "No Description or Image", Toast.LENGTH_SHORT).show()
+            "file_besar" -> Toast.makeText(
+                this@AddStoryUserActivity,
+                "No Description or Image",
+                Toast.LENGTH_SHORT
+            ).show()
 
-            "gagal" ->  Toast.makeText(this@AddStoryUserActivity, "Connection Failed", Toast.LENGTH_SHORT).show()
+            "gagal" -> Toast.makeText(
+                this@AddStoryUserActivity,
+                "Connection Failed",
+                Toast.LENGTH_SHORT
+            ).show()
 
-            "masukan_berkas" ->  Toast.makeText(this@AddStoryUserActivity, "Please enter the image file first.", Toast.LENGTH_SHORT).show()
+            "masukan_berkas" -> Toast.makeText(
+                this@AddStoryUserActivity,
+                "Please enter the image file first.",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 

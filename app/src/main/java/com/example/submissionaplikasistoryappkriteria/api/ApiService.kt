@@ -1,5 +1,6 @@
 package com.example.submissionaplikasistoryappkriteria.api
 
+import androidx.paging.PagingData
 import com.example.submissionaplikasistoryappkriteria.data.remote.remote.*
 import com.example.submissionaplikasistoryappkriteria.ui.register.UserPreference
 import okhttp3.MultipartBody
@@ -27,39 +28,58 @@ interface ApiService {
     @FormUrlEncoded
     @POST("/v1/register")
     fun register(
-        @Field("name") name: String,
-        @Field("email") email: String,
-        @Field("password") password: String
+        @Field("name") name: String?,
+        @Field("email") email: String?,
+        @Field("password") password: String?
     ): Call<RegisterResponse>
 
     @FormUrlEncoded
     @POST("/v1/login")
-    fun Login(
+    fun login(
         @Field("email") email: String?,
         @Field("password") password: String?
     ): Call<GetLoginResponse>
 
 
+    @GET("list")
+    suspend fun getQuote(
+        @Query("page") page: Int,
+        @Query("size") size: Int
+    ): List<QuoteResponseItem>
+
     @GET("/v1/stories")
-    fun getAllStories(
+   suspend fun getAllStories(
+        @Query("page") page: Int,
+        @Query("size") size: Int,
         @Header("Authorization") bearer: String?
-    ): Call<GetAllStoriesResponse>
+    ):GetAllStoriesResponse
+
+    @GET("/v1/stories")
+    fun getMaps(
+        @Header("Authorization") bearer: String?,
+        @Query("location") page: Int = 1,
+    ):Call<GetAllStoriesMapsResponse>
+
+
+
+
 }
 
 class ApiConfig {
-
-    fun getApiService(): ApiService {
-        val loggingInterceptor =
-            HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-        val client = OkHttpClient.Builder()
-            .addInterceptor(loggingInterceptor)
-            .build()
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://story-api.dicoding.dev/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client)
-            .build()
-        return retrofit.create(ApiService::class.java)
-    }
+      companion object {
+          fun getApiService(): ApiService {
+              val loggingInterceptor =
+                  HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
+              val client = OkHttpClient.Builder()
+                  .addInterceptor(loggingInterceptor)
+                  .build()
+              val retrofit = Retrofit.Builder()
+                  .baseUrl("https://story-api.dicoding.dev/")
+                  .addConverterFactory(GsonConverterFactory.create())
+                  .client(client)
+                  .build()
+              return retrofit.create(ApiService::class.java)
+          }
+      }
 }
 

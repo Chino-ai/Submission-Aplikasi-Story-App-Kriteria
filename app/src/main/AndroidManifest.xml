@@ -1,15 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.submissionaplikasistoryappkriteria">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-feature android:name="android.hardware.camera" />
-    <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="18" />
+
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -17,36 +22,42 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SubmissionAplikasiStoryAppKriteria">
+
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyA01iyAAEN8FtKrH4kBO0G2e21ANM7sgQw" />
+
+        <activity
+            android:name=".ui.maps.MapsActivity"
+            android:exported="false"
+            android:label="Maps Stories" />
         <activity
             android:name=".ui.addstory.AddStoryUserActivity"
             android:exported="false"
-            android:label="Add Story"
-            />
+            android:label="Add Story" />
         <activity
             android:name=".ui.addstory.CameraActivity"
             android:exported="false"
-            android:label="Add Story"
-            />
+            android:label="Add Story" />
         <activity
             android:name=".ui.detailuserstory.DetailUserActivity"
             android:exported="false"
-            android:label="Detail User"
-            />
+            android:label="Detail User" />
         <activity
             android:name=".ui.storyuser.StoryActivity"
             android:exported="false"
-            android:label="Story User"
-            />
+            android:label="Story User" />
         <activity
             android:name=".ui.register.RegisterActivity"
             android:exported="false"
-            android:screenOrientation="portrait"
-            android:label="@string/register" />
+            android:label="@string/register"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true"
-            android:screenOrientation="portrait"
-            android:label="@string/login">
+            android:label="@string/login"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -61,16 +72,8 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
+                android:resource="@xml/file_paths" />
         </provider>
     </application>
-
-    <queries>
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <category android:name="android.intent.category.BROWSABLE" />
-            <data android:scheme="https" />
-        </intent>
-    </queries>
 
 </manifest>

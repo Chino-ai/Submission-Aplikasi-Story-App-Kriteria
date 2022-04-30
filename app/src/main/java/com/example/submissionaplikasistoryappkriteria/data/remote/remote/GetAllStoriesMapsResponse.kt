@@ -7,10 +7,10 @@ import kotlinx.parcelize.Parcelize
 
 
 @Parcelize
-data class GetAllStoriesResponse(
+data class GetAllStoriesMapsResponse(
 
 	@field:SerializedName("listStory")
-	val listStory: List<ListStoryItem>,
+	val listStory: List<ListStoryMapsItem>,
 
 	@field:SerializedName("error")
 	val error: Boolean,
@@ -20,7 +20,7 @@ data class GetAllStoriesResponse(
 ) : Parcelable
 
 @Parcelize
-data class ListStoryItem(
+data class ListStoryMapsItem(
 
 	@field:SerializedName("photoUrl")
 	val photoUrl: String,

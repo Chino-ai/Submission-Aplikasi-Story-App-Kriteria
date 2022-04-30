@@ -7,7 +7,10 @@ import android.view.View
 import androidx.activity.viewModels
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.submissionaplikasistoryappkriteria.data.remote.remote.GetAllStoriesResponse
 import com.example.submissionaplikasistoryappkriteria.data.remote.remote.ListStoryItem
+
+
 import com.example.submissionaplikasistoryappkriteria.databinding.ActivityDetailUserBinding
 
 
@@ -20,7 +23,7 @@ class DetailUserActivity : AppCompatActivity() {
         detailUserBinding = ActivityDetailUserBinding.inflate(layoutInflater)
         setContentView(detailUserBinding.root)
 
-        val user = intent.getParcelableExtra<ListStoryItem>(EXTRA_USER) as ListStoryItem
+       val user = intent.getParcelableExtra<ListStoryItem>(EXTRA_USER) as ListStoryItem
         detailUserViewModel.getDetailUser(user.name, user.description,user.photoUrl)
 
         detailUserViewModel.username.observe(this){
@@ -31,7 +34,7 @@ class DetailUserActivity : AppCompatActivity() {
             detailUserBinding.vDescription.text = it
         }
 
-        detailUserViewModel.avatar.observe(this){
+       detailUserViewModel.avatar.observe(this){
             Glide.with(detailUserBinding.avatar)
                 .load(user.photoUrl)
                 .apply(RequestOptions().override(640, 640))

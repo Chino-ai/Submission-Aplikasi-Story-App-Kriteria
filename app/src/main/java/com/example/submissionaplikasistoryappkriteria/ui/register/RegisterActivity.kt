@@ -17,11 +17,9 @@ import com.example.submissionaplikasistoryappkriteria.databinding.ActivityRegist
 import com.example.submissionaplikasistoryappkriteria.ui.login.LoginActivity
 
 
-
 class RegisterActivity : AppCompatActivity() {
 
     private var emailValid = false
-
 
 
     private val registerViewModel by viewModels<RegisterViewModel>()
@@ -38,14 +36,20 @@ class RegisterActivity : AppCompatActivity() {
 
 
 
-        registerViewModel.toast.observe(this) {
+        registerViewModel.connection.observe(this) {
 
             allowRegister(it)
 
         }
 
-        registerViewModel.isLoading.observe(this){
+        registerViewModel.isLoading.observe(this) {
             showLoading(it)
+        }
+
+        registerViewModel.toast.observe(this) {
+            it.getContentIfNotHandled()?.let {
+                showToast(it)
+            }
         }
 
 
@@ -61,13 +65,7 @@ class RegisterActivity : AppCompatActivity() {
 
             } else {
 
-
-                sharedPreference?.save_String("name", strName)
-                sharedPreference?.save_String("email", strEmail)
-                sharedPreference?.save_String("password", strPassword)
                 registerViewModel.uploadRegister(strName, strEmail, strPassword)
-
-
             }
 
 
@@ -105,6 +103,13 @@ class RegisterActivity : AppCompatActivity() {
         })
     }
 
+    private fun showToast(isToast: Boolean) {
+        val caution = "Email, Password, Name not Correct or Email has Ready Taken"
+        if (isToast) {
+            Toast.makeText(this@RegisterActivity, caution, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun showLoading(isLoading: Boolean) {
         if (isLoading) {
             registerBinding.progressBar.visibility = View.VISIBLE
@@ -115,11 +120,12 @@ class RegisterActivity : AppCompatActivity() {
 
 
     private fun allowRegister(value: Boolean) {
+
         if (value) {
-
             val intent = Intent(this@RegisterActivity, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
-
+            finish()
             Toast.makeText(this, "Data Saved Successfully.", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this@RegisterActivity, "Failed Cause No Connection", Toast.LENGTH_SHORT)
@@ -143,7 +149,6 @@ class RegisterActivity : AppCompatActivity() {
         }
 
     }
-
 
 
     private fun showEmailExistAlert(isNotValid: Boolean) {

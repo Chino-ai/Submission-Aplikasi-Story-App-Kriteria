@@ -1,6 +1,7 @@
 package com.example.submissionaplikasistoryappkriteria.ui.addstory
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,6 +12,7 @@ import com.example.submissionaplikasistoryappkriteria.api.ApiConfig
 
 import com.example.submissionaplikasistoryappkriteria.data.remote.remote.PhotoUploadResponse
 import com.example.submissionaplikasistoryappkriteria.reduceFileImage
+import com.example.submissionaplikasistoryappkriteria.ui.register.RegisterViewModel
 import com.example.submissionaplikasistoryappkriteria.ui.register.UserPreference
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
@@ -35,7 +37,9 @@ class AddStoryUserViewModel(private val context: Context): ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-
+    companion object {
+        private const val TAG = "AddStoryUserViewModel"
+    }
 
 
     var description : String? = null
@@ -43,9 +47,9 @@ class AddStoryUserViewModel(private val context: Context): ViewModel() {
 
     private  var sharedPreference: UserPreference? = null
 
-   fun getFileResult(getFiles: File?){
-       getFile = getFiles
-   }
+    fun getFileResult(getFiles: File?){
+        getFile = getFiles
+    }
 
     fun getDescriptionResult(descriptions : String?){
         description = descriptions
@@ -67,7 +71,7 @@ class AddStoryUserViewModel(private val context: Context): ViewModel() {
                     requestImageFile
                 )
 
-                val service = ApiConfig().getApiService().uploadImage(
+                val service = ApiConfig.getApiService().uploadImage(
                     sharedPreference?.getPreferenceString("token"),
                     imageMultipart,
                     description
@@ -88,15 +92,12 @@ class AddStoryUserViewModel(private val context: Context): ViewModel() {
                                 _toast.value = Event("berhasil")
 
                             }
-                            if (responseBody?.error == true) {
-                                _toast.value = Event("file_besar")
-                                _change.value = false
-                                _isLoading.value = false
-                            }
+
                         } else {
                             _toast.value = Event("file_besar")
                             _change.value = false
                             _isLoading.value = false
+                            Log.e(TAG, "onResponse: ${response.message()}")
                         }
                     }
 

@@ -8,34 +8,30 @@ import android.text.TextWatcher
 import android.util.Patterns
 import android.view.View
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import com.example.submissionaplikasistoryappkriteria.R
 import com.example.submissionaplikasistoryappkriteria.databinding.ActivityLoginBinding
-import com.example.submissionaplikasistoryappkriteria.ui.addstory.AddStoryUserViewModel
 import com.example.submissionaplikasistoryappkriteria.ui.register.RegisterActivity
 import com.example.submissionaplikasistoryappkriteria.ui.register.UserPreference
 import com.example.submissionaplikasistoryappkriteria.ui.storyuser.StoryActivity
 import com.example.submissionaplikasistoryappkriteria.viewModel.ViewModelFactory
+
 
 class LoginActivity : AppCompatActivity() {
 
     private var emailValid = false
 
 
-
     private lateinit var loginBinding: ActivityLoginBinding
     private var sharedPreference: UserPreference? = null
-    private lateinit var loginViewModel : LoginViewModel
+    private lateinit var loginViewModel: LoginViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         loginBinding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(loginBinding.root)
 
-        loginViewModel = ViewModelProvider(this, ViewModelFactory(this)).get(
-            LoginViewModel::class.java
-        )
+        loginViewModel = ViewModelProvider(this, ViewModelFactory(this))[LoginViewModel::class.java]
         sharedPreference = UserPreference(this)
 
         loginViewModel.noConnections.observe(this) {
@@ -44,12 +40,15 @@ class LoginActivity : AppCompatActivity() {
 
         }
 
-        loginViewModel.isLoading.observe(this){
+        loginViewModel.isLoading.observe(this) {
             showLoading(it)
         }
 
-
-
+        loginViewModel.toast.observe(this) {
+            it.getContentIfNotHandled()?.let {
+                showToast(it)
+            }
+        }
 
 
         val strLoginStatus = sharedPreference?.getPreferenceString("login_status")
@@ -68,17 +67,11 @@ class LoginActivity : AppCompatActivity() {
                     .show()
             } else {
 
-                val emailId = sharedPreference?.getPreferenceString("email")
-                val password = sharedPreference?.getPreferenceString("password")
-                loginViewModel.userLogin(emailId, password)
+
+                sharedPreference?.save_String("login_status", "1")
+                loginViewModel.userLogin(strEmail, strPassword)
 
 
-                if (emailId.equals(strEmail) && password.equals(strPassword)) {
-                    sharedPreference?.save_String("login_status", "1")
-
-                } else {
-                    Toast.makeText(this, "User Not Available.", Toast.LENGTH_SHORT).show()
-                }
             }
         }
 
@@ -87,6 +80,7 @@ class LoginActivity : AppCompatActivity() {
 
         loginBinding.txtRegister.setOnClickListener {
             val intent = Intent(this, RegisterActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
 
@@ -108,6 +102,14 @@ class LoginActivity : AppCompatActivity() {
         })
     }
 
+    private fun showToast(isToast: Boolean) {
+
+        val caution = "Failed Cause No Connection"
+        if (isToast) {
+            Toast.makeText(this@LoginActivity, caution, Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private fun showLoading(isLoading: Boolean) {
         if (isLoading) {
             loginBinding.progressBar.visibility = View.VISIBLE
@@ -120,14 +122,15 @@ class LoginActivity : AppCompatActivity() {
         if (value) {
 
             val intent = Intent(this@LoginActivity, StoryActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
+            finish()
 
             Toast.makeText(this, "Successfully Login.", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(
-                this, "Failed Cause No Connection", Toast.LENGTH_SHORT
-            )
-                .show()
+                this, "Email and Password not Correct or Data not Available", Toast.LENGTH_SHORT
+            ).show()
         }
     }
 

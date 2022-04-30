@@ -2,10 +2,12 @@ package com.example.submissionaplikasistoryappkriteria.ui.login
 
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.submissionaplikasistoryappkriteria.Event
 import com.example.submissionaplikasistoryappkriteria.api.ApiConfig
 import com.example.submissionaplikasistoryappkriteria.data.remote.remote.*
 import com.example.submissionaplikasistoryappkriteria.ui.register.UserPreference
@@ -22,14 +24,20 @@ class LoginViewModel(private val context: Context) : ViewModel() {
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
-    private  var sharedPreference: UserPreference? = null
+    private val _toast = MutableLiveData<Event<Boolean>>()
+    val toast: LiveData<Event<Boolean>> = _toast
 
+    private var sharedPreference: UserPreference? = null
+
+    companion object {
+        private const val TAG = "LoginViewModel"
+    }
 
     fun userLogin(email: String?, password: String?) {
         sharedPreference = UserPreference(context)
         _isLoading.value = true
         viewModelScope.launch {
-            val service = ApiConfig().getApiService().Login(
+            val service = ApiConfig.getApiService().login(
                 email,
                 password
             )
@@ -39,23 +47,37 @@ class LoginViewModel(private val context: Context) : ViewModel() {
                     call: Call<GetLoginResponse>,
                     response: Response<GetLoginResponse>
                 ) {
+
                     _isLoading.value = false
-                    _noConnections.value = true
                     if (response.isSuccessful) {
                         val responseBody = response.body()
-                        sharedPreference?.save_String("token","bearer " + (responseBody?.loginResult?.token))
+                        sharedPreference?.save_String(
+                            "token",
+                            "bearer " + (responseBody?.loginResult?.token)
+                        )
+
+                        if (responseBody?.error == false && responseBody.message == "success") {
+                            _noConnections.value = true
+                            _toast.value = Event(false)
+                        }
 
                         if (responseBody?.error == true) {
                             _isLoading.value = false
+                            _noConnections.value = false
                         }
 
 
+                    } else {
+                        Log.e(TAG, "onResponse: ${response.message()}")
+                        _isLoading.value = false
+                        _noConnections.value = false
                     }
                 }
 
                 override fun onFailure(call: Call<GetLoginResponse>, t: Throwable) {
                     _noConnections.value = false
                     _isLoading.value = false
+                    _toast.value = Event(true)
                 }
             })
         }
