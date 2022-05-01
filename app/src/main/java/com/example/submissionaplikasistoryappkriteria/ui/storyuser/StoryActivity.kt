@@ -54,8 +54,8 @@ class StoryActivity : AppCompatActivity() {
     private fun getData() {
 
         val adapter = ListUserStoryAdapter()
-        storyBinding.rvGithub.adapter = adapter.withLoadStateHeader(
-            header = LoadingStateAdapter {
+        storyBinding.rvGithub.adapter = adapter.withLoadStateFooter(
+            footer = LoadingStateAdapter {
                 adapter.retry()
             }
         )
