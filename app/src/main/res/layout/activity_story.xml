@@ -14,7 +14,6 @@
         android:layout_height="wrap_content"
         tools:listitem="@layout/item_row_user" />
 
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_add"
         android:layout_width="wrap_content"

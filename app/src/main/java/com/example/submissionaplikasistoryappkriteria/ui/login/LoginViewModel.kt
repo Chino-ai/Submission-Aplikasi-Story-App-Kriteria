@@ -51,7 +51,7 @@ class LoginViewModel(private val context: Context) : ViewModel() {
                     _isLoading.value = false
                     if (response.isSuccessful) {
                         val responseBody = response.body()
-                        sharedPreference?.save_String(
+                        sharedPreference?.saveString(
                             "token",
                             "bearer " + (responseBody?.loginResult?.token)
                         )

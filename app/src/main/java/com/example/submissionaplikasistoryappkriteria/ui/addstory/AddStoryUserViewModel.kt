@@ -2,23 +2,19 @@ package com.example.submissionaplikasistoryappkriteria.ui.addstory
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.submissionaplikasistoryappkriteria.Event
 import com.example.submissionaplikasistoryappkriteria.api.ApiConfig
-
 import com.example.submissionaplikasistoryappkriteria.data.remote.remote.PhotoUploadResponse
 import com.example.submissionaplikasistoryappkriteria.reduceFileImage
-import com.example.submissionaplikasistoryappkriteria.ui.register.RegisterViewModel
 import com.example.submissionaplikasistoryappkriteria.ui.register.UserPreference
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import retrofit2.Call

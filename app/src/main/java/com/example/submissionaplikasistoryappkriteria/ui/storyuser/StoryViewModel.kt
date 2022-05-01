@@ -7,9 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.example.submissionaplikasistoryappkriteria.data.remote.remote.GetAllStoriesResponse
 import com.example.submissionaplikasistoryappkriteria.data.remote.remote.ListStoryItem
-import com.example.submissionaplikasistoryappkriteria.data.remote.remote.QuoteResponseItem
 import com.example.submissionaplikasistoryappkriteria.data.repository.UserStoryRepository
 
 class StoryViewModel(userStoryRepository: UserStoryRepository) : ViewModel() {

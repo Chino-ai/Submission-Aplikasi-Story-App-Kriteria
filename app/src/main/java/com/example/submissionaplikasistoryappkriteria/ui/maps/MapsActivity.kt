@@ -1,15 +1,19 @@
 package com.example.submissionaplikasistoryappkriteria.ui.maps
 
+import android.content.Intent
 import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.lifecycle.ViewModelProvider
 import com.example.submissionaplikasistoryappkriteria.R
 import com.example.submissionaplikasistoryappkriteria.data.remote.remote.GetAllStoriesMapsResponse
 import com.example.submissionaplikasistoryappkriteria.data.remote.remote.ListStoryMapsItem
 import com.example.submissionaplikasistoryappkriteria.databinding.ActivityMapsBinding
 import com.example.submissionaplikasistoryappkriteria.ui.storyuser.ListUserStoryAdapter
+import com.example.submissionaplikasistoryappkriteria.ui.storyuser.StoryActivity
 import com.example.submissionaplikasistoryappkriteria.ui.storyuser.StoryViewModel
 import com.example.submissionaplikasistoryappkriteria.viewModel.ViewModelFactory
 
@@ -42,6 +46,28 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.option_menu_maps, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.refresh_maps ->{
+                val intent = Intent(this@MapsActivity, MapsActivity::class.java)
+
+                startActivity(intent)
+                finish()
+
+
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
 

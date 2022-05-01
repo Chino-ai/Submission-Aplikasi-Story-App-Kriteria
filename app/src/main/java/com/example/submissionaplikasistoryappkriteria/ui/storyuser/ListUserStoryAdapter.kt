@@ -2,7 +2,6 @@ package com.example.submissionaplikasistoryappkriteria.ui.storyuser
 
 import android.app.Activity
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.app.ActivityOptionsCompat
@@ -12,9 +11,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.submissionaplikasistoryappkriteria.data.remote.remote.GetAllStoriesResponse
 import com.example.submissionaplikasistoryappkriteria.data.remote.remote.ListStoryItem
-import com.example.submissionaplikasistoryappkriteria.data.remote.remote.QuoteResponseItem
 import com.example.submissionaplikasistoryappkriteria.databinding.ItemRowUserBinding
 import com.example.submissionaplikasistoryappkriteria.ui.detailuserstory.DetailUserActivity
 

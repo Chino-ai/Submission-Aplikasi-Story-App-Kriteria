@@ -3,17 +3,12 @@ package com.example.submissionaplikasistoryappkriteria.ui.storyuser
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.submissionaplikasistoryappkriteria.R
-import com.example.submissionaplikasistoryappkriteria.data.remote.remote.GetAllStoriesMapsResponse
-import com.example.submissionaplikasistoryappkriteria.data.remote.remote.GetAllStoriesResponse
 import com.example.submissionaplikasistoryappkriteria.databinding.ActivityStoryBinding
 import com.example.submissionaplikasistoryappkriteria.ui.addstory.AddStoryUserActivity
 import com.example.submissionaplikasistoryappkriteria.ui.login.LoginActivity
@@ -40,6 +35,8 @@ class StoryActivity : AppCompatActivity() {
 
 
 
+
+
         storyBinding.fabAdd.setOnClickListener {
             val intent = Intent(this@StoryActivity, AddStoryUserActivity::class.java)
             startActivity(intent)
@@ -60,47 +57,47 @@ class StoryActivity : AppCompatActivity() {
             }
         )
         storyViewModel.userStory.observe(this) {
-
             adapter.submitData(lifecycle, it)
 
-
-
-
-
-
-    }
-}
-
-
-private fun showRecycleView() {
-    storyBinding.rvGithub.layoutManager = LinearLayoutManager(this)
-}
-
-override fun onCreateOptionsMenu(menu: Menu): Boolean {
-    val inflater = menuInflater
-    inflater.inflate(R.menu.option_menu, menu)
-
-    return true
-}
-
-override fun onOptionsItemSelected(item: MenuItem): Boolean {
-    when (item.itemId) {
-        R.id.log_out -> {
-            sharedPreference?.clearSharedPreference()
-            Toast.makeText(this, "User LogOut Successfully.", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this@StoryActivity, LoginActivity::class.java)
-            startActivity(intent)
-            finish()
         }
+    }
 
-        R.id.maps -> {
-            val intent = Intent(this@StoryActivity, MapsActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
-            startActivity(intent)
+
+    private fun showRecycleView() {
+        storyBinding.rvGithub.layoutManager = LinearLayoutManager(this)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.option_menu, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.log_out -> {
+                sharedPreference?.clearSharedPreference()
+                Toast.makeText(this, "User LogOut Successfully.", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this@StoryActivity, LoginActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
+            R.id.maps -> {
+                val intent = Intent(this@StoryActivity, MapsActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+
+            }
+            R.id.refresh -> {
+                val intent = Intent(this@StoryActivity, StoryActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                finish()
+            }
 
         }
-
+        return super.onOptionsItemSelected(item)
     }
-    return super.onOptionsItemSelected(item)
-}
 }

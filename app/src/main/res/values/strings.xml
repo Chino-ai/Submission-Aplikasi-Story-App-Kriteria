@@ -26,8 +26,11 @@
     <string name="upload">Upload</string>
     <string name="fill_description">Fill Description</string>
     <string name="floatingButton">TODO</string>
-    <string name="refresh">Refresh</string>
+    <string name="refresh">Refresh Story Page</string>
     <string name="title_activity_maps">MapsActivity</string>
     <string name="retry">Retry</string>
+    <string name="no_connection">No Connection</string>
+    <string name="refresh_maps_user">Refresh Maps user</string>
+
 
 </resources>

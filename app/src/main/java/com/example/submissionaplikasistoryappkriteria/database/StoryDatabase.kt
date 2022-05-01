@@ -8,12 +8,13 @@ import com.example.submissionaplikasistoryappkriteria.data.local.entity.StoryEnt
 import com.example.submissionaplikasistoryappkriteria.data.remote.remote.ListStoryItem
 
 @Database(
-    entities = [ListStoryItem::class],
-    version = 2,
+    entities = [ListStoryItem::class, RemoteKeys::class],
+    version = 3,
     exportSchema = false
 )
 abstract class StoryDatabase : RoomDatabase() {
     abstract fun storyDao(): StoryDao
+    abstract fun remoteKeysDao(): RemoteKeysDao
     companion object {
         @Volatile
         private var INSTANCE: StoryDatabase? = null

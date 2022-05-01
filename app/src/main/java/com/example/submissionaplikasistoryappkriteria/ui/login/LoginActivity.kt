@@ -68,7 +68,7 @@ class LoginActivity : AppCompatActivity() {
             } else {
 
 
-                sharedPreference?.save_String("login_status", "1")
+                sharedPreference?.saveString("login_status", "1")
                 loginViewModel.userLogin(strEmail, strPassword)
 
 

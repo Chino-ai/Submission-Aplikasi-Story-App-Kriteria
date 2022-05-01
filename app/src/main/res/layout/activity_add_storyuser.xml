@@ -7,23 +7,22 @@
     tools:context=".ui.addstory.AddStoryUserActivity">
 
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <ProgressBar
             android:id="@+id/progressBar"
             style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/previewImageView"
             android:layout_centerInParent="true"
             android:layout_marginStart="181dp"
             android:layout_marginTop="17dp"
-            android:visibility="invisible"
             android:layout_marginEnd="182dp"
             android:layout_marginBottom="115dp"
-            android:layout_below="@id/previewImageView"
-            />
+            android:visibility="invisible" />
 
 
         <Button

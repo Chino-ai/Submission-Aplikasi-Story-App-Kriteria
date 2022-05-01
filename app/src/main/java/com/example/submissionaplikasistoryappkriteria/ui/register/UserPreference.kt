@@ -8,7 +8,7 @@ class UserPreference(context: Context) {
     val shared_Pref: SharedPreferences = context.getSharedPreferences(preference_Name, Context.MODE_PRIVATE)
 
 
-    fun save_String(key_name: String, text: String) {
+    fun saveString(key_name: String, text: String) {
         val editor: SharedPreferences.Editor = shared_Pref.edit()
         editor.putString(key_name, text)
         editor.apply()
