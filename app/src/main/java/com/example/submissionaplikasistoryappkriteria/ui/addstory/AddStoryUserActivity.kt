@@ -7,12 +7,15 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
+import com.example.submissionaplikasistoryappkriteria.R
 import com.example.submissionaplikasistoryappkriteria.databinding.ActivityAddStoryuserBinding
 import com.example.submissionaplikasistoryappkriteria.rotateBitmap
 import com.example.submissionaplikasistoryappkriteria.ui.storyuser.StoryActivity
@@ -94,6 +97,27 @@ class AddStoryUserActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.option_menu_story, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId){
+            R.id.refresh_add_story ->{
+                val intent = Intent(this@AddStoryUserActivity, AddStoryUserActivity::class.java)
+                startActivity(intent)
+                finish()
+
+
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
     companion object {
         const val CAMERA_X_RESULT = 200
 
@@ -122,6 +146,12 @@ class AddStoryUserActivity : AppCompatActivity() {
 
     private fun showToast(value: String) {
         when (value) {
+            "timeout" -> Toast.makeText(
+                this@AddStoryUserActivity,
+                "Timeout Server Down",
+                Toast.LENGTH_SHORT
+            ).show()
+
             "berhasil" -> Toast.makeText(
                 this@AddStoryUserActivity,
                 "Uploaded successfully",
@@ -136,7 +166,7 @@ class AddStoryUserActivity : AppCompatActivity() {
 
             "gagal" -> Toast.makeText(
                 this@AddStoryUserActivity,
-                "Connection Failed",
+                "Connection Failed or Image Size Must be Less Than 1 MB",
                 Toast.LENGTH_SHORT
             ).show()
 
@@ -171,13 +201,15 @@ class AddStoryUserActivity : AppCompatActivity() {
             val isBackCamera = it.data?.getBooleanExtra("isBackCamera", true) as Boolean
 
             getFile = myFile
-            addStoryUserViewModel.getFileResult(getFile)
+
             val result = rotateBitmap(
                 BitmapFactory.decodeFile(getFile?.path),
                 isBackCamera
             )
 
+
             addStoryUserBinding.previewImageView.setImageBitmap(result)
+            addStoryUserViewModel.getFileResult(getFile)
         }
     }
 

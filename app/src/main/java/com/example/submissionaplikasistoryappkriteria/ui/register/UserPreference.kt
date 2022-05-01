@@ -4,22 +4,22 @@ import android.content.Context
 import android.content.SharedPreferences
 
 class UserPreference(context: Context) {
-    private val preference_Name = "Kotlinkatta"
-    val shared_Pref: SharedPreferences = context.getSharedPreferences(preference_Name, Context.MODE_PRIVATE)
+    private val preferenceName = "Kotlinkatta"
+    private val sharedPref: SharedPreferences = context.getSharedPreferences(preferenceName, Context.MODE_PRIVATE)
 
 
     fun saveString(key_name: String, text: String) {
-        val editor: SharedPreferences.Editor = shared_Pref.edit()
+        val editor: SharedPreferences.Editor = sharedPref.edit()
         editor.putString(key_name, text)
         editor.apply()
     }
 
     fun getPreferenceString(key_name: String): String? {
-        return shared_Pref.getString(key_name, null)
+        return sharedPref.getString(key_name, null)
     }
 
     fun clearSharedPreference() {
-        val editor: SharedPreferences.Editor = shared_Pref.edit()
+        val editor: SharedPreferences.Editor = sharedPref.edit()
         editor.clear()
         editor.apply()
     }

@@ -1,14 +1,10 @@
 package com.example.submissionaplikasistoryappkriteria.data
 
 import android.content.Context
-import android.util.Log
 import com.example.submissionaplikasistoryappkriteria.api.ApiService
-
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.example.submissionaplikasistoryappkriteria.data.remote.remote.GetAllStoriesResponse
 import com.example.submissionaplikasistoryappkriteria.data.remote.remote.ListStoryItem
-import com.example.submissionaplikasistoryappkriteria.data.remote.remote.QuoteResponseItem
 import com.example.submissionaplikasistoryappkriteria.ui.register.UserPreference
 
 

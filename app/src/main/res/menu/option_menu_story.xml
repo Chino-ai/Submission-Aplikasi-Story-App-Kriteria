@@ -4,9 +4,9 @@
 
 
     <item
-        android:id="@+id/refresh_maps"
+        android:id="@+id/refresh_add_story"
         android:icon="@drawable/ic_baseline_settings_24"
-        android:title="@string/refresh_maps_user"
+        android:title="@string/refresh_add_story_page"
         app:showAsAction="collapseActionView" />
 
 

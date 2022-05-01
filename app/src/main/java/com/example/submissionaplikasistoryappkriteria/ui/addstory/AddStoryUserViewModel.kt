@@ -98,9 +98,14 @@ class AddStoryUserViewModel(private val context: Context): ViewModel() {
                     }
 
                     override fun onFailure(call: Call<PhotoUploadResponse>, t: Throwable) {
-                        _toast.value = Event("gagal")
+                        if (t.message.equals("timeout")) {
+                            _toast.value = Event("timeout")
+                        } else {
+                            _toast.value = Event("gagal")
+                        }
                         _change.value = false
                         _isLoading.value = false
+                        Log.e(TAG, "onResponse: ${t.message}")
                     }
                 })
             } else {
@@ -109,5 +114,6 @@ class AddStoryUserViewModel(private val context: Context): ViewModel() {
                 _isLoading.value = false
             }
         }
+
     }
 }

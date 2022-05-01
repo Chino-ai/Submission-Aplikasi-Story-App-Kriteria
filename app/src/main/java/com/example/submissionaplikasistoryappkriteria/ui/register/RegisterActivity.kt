@@ -77,8 +77,7 @@ class RegisterActivity : AppCompatActivity() {
             }
 
             override fun onTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
-                if (p0.toString().isNotEmpty()) registerBinding.btnLogin.isEnabled =
-                    true else registerBinding.btnLogin.isEnabled = false
+                registerBinding.btnLogin.isEnabled = p0.toString().isNotEmpty()
             }
 
             override fun afterTextChanged(p0: Editable?) {
